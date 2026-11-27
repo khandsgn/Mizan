@@ -89,13 +89,70 @@ const LEGAL_LEDGER = [
     date: '2026 · MART–AVGUST',
     doc: "O'RQ-1126 Qonuni",
     title: "Islomiy banklar va islomiy mikromoliya banklari",
-    note: "2026-yil 29-iyundan to'laqonli islomiy bank faoliyati va bank darchalari kuchga kirdi; avgustda MMTlarning islomiy mikromoliya bankiga aylanish tartibi tasdiqlandi.",
+    note: "2026-yil 29-iyundan to'laqonli islomiy bank faoliyati va 5¹-modda (islomiy operatsiyalar) kuchga kirdi; avgustda MMTlarning islomiy mikromoliya bankiga aylanish tartibi tasdiqlandi.",
   },
   {
-    date: '2026–2031 · UFQ',
-    doc: 'Strategik maqsad',
-    title: "Bozor konsolidatsiyasi va raqamli Murabaha",
-    note: "2030-yilgacha 10 tagacha islomiy bank/darcha tashkil etilishi va mikromoliya portfelining 20–30% qismi shariatga mos mahsulotlarga o'tishi kutilmoqda.",
+    date: '2026 · OKTABR–NOYABR',
+    doc: 'MB Litsenziyalari',
+    title: "Open Bank va 4 ta yirik bankka ruxsat berildi",
+    note: "Oktabrda Open Bank (sobiq Smart Bank) ilk to'laqonli islomiy bank litsenziyasini oldi; noyabrda Ipak Yo'li, Asia Alliance, Orient Finans va Hayot Bankka islomiy operatsiyalar ruxsatnomasi berildi.",
+  },
+];
+
+const LICENSED_INSTITUTIONS = [
+  {
+    name: 'Open Bank (sobiq Smart Bank)',
+    date: '2026 · Oktabr',
+    status: "To'laqonli islomiy bank litsenziyasi",
+    basis: "O'RQ-1126 · MB ilk litsenziyasi",
+    products: 'Murabaha, Ijara, Mudaraba depozit, Wakala',
+    mmtImpact:
+      "Raqamli chakana va kichik biznes segmentida an'anaviy MMTlar uchun to'g'ridan-to'g'ri raqobatchi; ulgurji fondlash hamkori.",
+  },
+  {
+    name: "Ipak Yo'li Banki",
+    date: '2026 · Noyabr',
+    status: 'Islomiy moliya operatsiyalari ruxsatnomasi',
+    basis: "Banklar to'g'risidagi Qonun 5¹-modda",
+    products: 'Kichik va o‘rta biznes Murabaha, Ijara (avto/uskuna)',
+    mmtImpact:
+      "KOB (MSME) segmentida kuchli filial tarmog'i orqali MMTlarning yirikroq mijozlarini jalb etadi va marjani pasaytiradi.",
+  },
+  {
+    name: 'Asia Alliance Bank',
+    date: '2026 · Noyabr',
+    status: 'Islomiy moliya operatsiyalari ruxsatnomasi',
+    basis: "Banklar to'g'risidagi Qonun 5¹-modda",
+    products: 'Korporativ va KOB Murabaha, Xalqaro IsDB/ICD liniyalari',
+    mmtImpact:
+      "ITB (IsDB) va ICD bilan tajribasi tufayli hududiy islomiy MMTlar uchun sindikatlashgan fondlash kanali bo'la oladi.",
+  },
+  {
+    name: 'Orient Finans Bank',
+    date: '2026 · Noyabr',
+    status: 'Islomiy moliya operatsiyalari ruxsatnomasi',
+    basis: "Banklar to'g'risidagi Qonun 5¹-modda",
+    products: 'Savdo moliyalashtirish (Murabaha), Tijorat Ijarasi',
+    mmtImpact:
+      "Toshkent va yirik shaharlarda savdo aylanmasi yuqori tadbirkorlarni qamrab olib, MMTlarni mikro-segmentga yo'naltiradi.",
+  },
+  {
+    name: 'Hayot Bank',
+    date: '2026 · Noyabr',
+    status: 'Islomiy moliya operatsiyalari ruxsatnomasi',
+    basis: "Banklar to'g'risidagi Qonun 5¹-modda",
+    products: 'Raqamli Murabaha (BNPL), Chakana halol nasiya',
+    mmtImpact:
+      "Raqamli ekotizim orqali chakana BNPL bozorida fintech-MMTlar bilan bevosita raqobatlashadi.",
+  },
+  {
+    name: 'Mikromoliya tashkilotlari (MMTlar)',
+    date: '2024 · Iyul → 2026 · Avgust',
+    status: "Maxsus islomiy xizmatlar & Islomiy MM bankiga o'tish",
+    basis: "MB №3536 nizomi & O'RQ-1026",
+    products: 'Mikro-Murabaha, Ijara, Agro-Salam, Musharaka',
+    mmtImpact:
+      "50 mlrd so'm kapital yig'gan yirik MMTlar Islomiy mikromoliya bankiga aylanib, o'z hududiy nishasini saqlab qoladi.",
   },
 ];
 
@@ -438,6 +495,63 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Licensed Islamic Banks & Microfinance Competitive Impact Matrix (2026) */}
+      <section className="bg-white dark:bg-[#0A1812] border border-[#D5CEBF] dark:border-[#1B382B] gold-rule-top overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#E5DFD3] dark:border-[#163024] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 className="font-display text-xl font-bold text-[#081C15] dark:text-white">
+              2026-yilda Islomiy Moliya Litsenziyasi va Ruxsatnomasiga Ega Banklar hamda MMTlarga Ta&apos;siri
+            </h2>
+            <p className="text-xs text-[#52635A] dark:text-[#8FA69B]">
+              Markaziy bank tomonidan 2026-yil oktabr–noyabr oylarida tasdiqlangan institutlar va ularning mikromoliya bozoriga ta&apos;siri
+            </p>
+          </div>
+          <span className="mono-num text-[11px] px-2.5 py-1 bg-[#F6F3EC] dark:bg-[#11261D] border border-[#C5A059]/40 text-[#081C15] dark:text-[#D4B36F] shrink-0">
+            5¹-modda · O&apos;RQ-1126
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-[#FAF8F3] dark:bg-[#0D2118] text-[#52635A] dark:text-[#8FA69B] border-b border-[#E5DFD3] dark:border-[#163024]">
+              <tr>
+                <th className="px-5 py-3 font-semibold">Moliya instituti</th>
+                <th className="px-5 py-3 font-semibold">Sana</th>
+                <th className="px-5 py-3 font-semibold">Maqomi va huquqiy asosi</th>
+                <th className="px-5 py-3 font-semibold">Asosiy shariat mahsulotlari</th>
+                <th className="px-5 py-3 font-semibold">Mikromoliyaga (MMTlarga) 5 yillik ta&apos;siri</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#E5DFD3] dark:divide-[#163024]">
+              {LICENSED_INSTITUTIONS.map((inst) => (
+                <tr key={inst.name} className="hover:bg-[#FAF8F3] dark:hover:bg-[#0E241A]">
+                  <td className="px-5 py-3.5 font-bold text-[#081C15] dark:text-white whitespace-nowrap">
+                    {inst.name}
+                  </td>
+                  <td className="px-5 py-3.5 mono-num text-[#9A7428] dark:text-[#D4B36F] whitespace-nowrap font-semibold">
+                    {inst.date}
+                  </td>
+                  <td className="px-5 py-3.5">
+                    <div className="font-semibold text-[#0A3828] dark:text-[#D4B36F]">
+                      {inst.status}
+                    </div>
+                    <div className="mono-num text-[11px] text-[#52635A] dark:text-[#8FA69B]">
+                      {inst.basis}
+                    </div>
+                  </td>
+                  <td className="px-5 py-3.5 text-[#2C3E35] dark:text-[#C2D1C9]">
+                    {inst.products}
+                  </td>
+                  <td className="px-5 py-3.5 text-[#52635A] dark:text-[#8FA69B] max-w-md leading-relaxed">
+                    {inst.mmtImpact}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 

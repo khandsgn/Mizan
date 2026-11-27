@@ -65,12 +65,13 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
   const whatIfLevers = useMemo(() => {
     const list: { title: string; desc: string; next: SimulatorInput }[] = [
       {
-        title: "Islomiy mikromoliya bankiga o'tish (O'RQ-1026)",
-        desc: "Kapitalni 58 mlrd so'mga oshirish va raqamli Murabaha indeksini 85 ga yetkazish.",
+        title: "Open Bank / Ipak Yo'li / Orient Finans bilan ulgurji Wakala-Mudaraba",
+        desc: "2026-yil noyabrda ruxsatnoma olgan banklarning (Ipak Yo'li, Asia Alliance, Orient Finans, Hayot Bank) islomiy darchalari orqali fondlash jalb etib, kapitalni 60 mlrdga chiqarish.",
         next: {
           ...input,
-          kapitalHajmi: Math.max(input.kapitalHajmi, 58),
-          raqamlashtirish: Math.max(input.raqamlashtirish, 85),
+          kapitalHajmi: Math.max(input.kapitalHajmi, 60),
+          raqamlashtirish: Math.max(input.raqamlashtirish, 82),
+          soliqYuklamasi: Math.min(input.soliqYuklamasi, 3.5),
           mahsulotTuri: 'Murabaha',
         },
       },
