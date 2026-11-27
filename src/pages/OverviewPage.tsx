@@ -74,27 +74,27 @@ const SCENARIO_META: Record<
 
 const LEGAL_LEDGER = [
   {
-    date: '2024 · IYUL',
-    doc: 'MB №3536-sonli Nizom',
+    date: '2024 · Iyul',
+    doc: 'MB №3536 Nizomi',
     title: "MMTlarga islomiy moliyalashtirish huquqi berildi",
     note: "AAOIFI standartlari asosida Murabaha, Ijara, Mudaraba, Musharaka va Salam shartnomalari hamda Shariat kengashi talabi kiritildi.",
   },
   {
-    date: '2025 · FEVRAL',
-    doc: "O'RQ-1026-sonli Qonun",
+    date: '2025 · Fevral',
+    doc: "O'RQ-1026 Qonuni",
     title: 'Mikromoliya banki instituti joriy etildi',
     note: "Eng kam ustav kapitali 50 mlrd so'm etib belgilandi va MMT → Mikromoliya banki → Tijorat banki transformatsiya zanjiri ochildi.",
   },
   {
-    date: '2026 · MART–AVGUST',
-    doc: "O'RQ-1126-sonli Qonun",
+    date: '2026 · Mart–Avgust',
+    doc: "O'RQ-1126 Qonuni",
     title: "Islomiy banklar va islomiy mikromoliya banklari",
     note: "2026-yil 29-iyundan to'laqonli islomiy bank faoliyati va bank darchalari kuchga kirdi; avgustda MMTlarning islomiy mikromoliya bankiga aylanish tartibi tasdiqlandi.",
   },
   {
-    date: '2026–2031 · PROGNOZ',
-    doc: 'Strategik ufq',
-    title: "Bozor konsolidatsiyasi va raqamli Murabaha",
+    date: '2026–2031 · Ufq',
+    doc: 'Bozor prognozi',
+    title: "Konsolidatsiya va raqamli Murabaha ustunligi",
     note: "2030-yilgacha 10 tagacha islomiy bank/darcha tashkil etilishi va mikromoliya portfelining 20–30% qismi shariatga mos mahsulotlarga o'tishi kutilmoqda.",
   },
 ];
@@ -162,104 +162,107 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
   const active = SCENARIO_META[scenario];
 
   return (
-    <div className="space-y-8">
-      {/* Editorial Briefing Header (Replaces the AI-style marketing hero box) */}
-      <section className="border-b border-[#D5D3CC] dark:border-[#222630] pb-7">
-        <div className="mono-num text-[11px] uppercase tracking-widest text-[#0F5338] dark:text-emerald-400 font-semibold mb-2">
-          Tahliliy ma&apos;lumotnoma · O&apos;zbekiston mikromoliya sektori (2026–2031)
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8">
-            <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#111315] dark:text-white leading-[1.15]">
+    <div className="space-y-6">
+      {/* Top Quant Summary Panel */}
+      <section className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div className="lg:col-span-7">
+            <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1.5">
+              Makroiqtisodiy va Sektorial Modellashtirish · 2026–2031
+            </div>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white leading-tight">
               Islom moliyasining mikromoliyaga kelajakdagi 5 yillik ta&apos;siri
             </h1>
-            <p className="mt-3.5 text-sm sm:text-[15px] text-[#454A4F] dark:text-slate-300 leading-relaxed max-w-3xl">
-              2024–2026-yillarda qabul qilingan Markaziy bankning 3536-sonli nizomi, O&apos;RQ-1026 va
-              O&apos;RQ-1126 qonunlari O&apos;zbekistonda shariatga mos mikromoliyalashtirish uchun
-              institutsional zamin yaratdi. Ushbu model 500 ta MMT ko&apos;rsatkichlari asosida
-              2031-yilgacha bo&apos;lgan tarkibiy o&apos;zgarishlarni baholaydi.
+            <p className="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Markaziy bankning 3536-sonli nizomi, O&apos;RQ-1026 va O&apos;RQ-1126 qonunlari asosida
+              O&apos;zbekiston mikromoliya tashkilotlarining (MMT) shariatga mos mahsulotlarga o&apos;tish
+              ehtimoli va 2031-yilgacha bo&apos;lgan portfel ulushi prognozi.
             </p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-2.5">
               <button
                 onClick={onQuickSimulation}
-                className="px-4 py-2.5 rounded-[3px] bg-[#0F5338] hover:bg-[#0B3E2A] text-white text-xs font-semibold tracking-wide transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-colors"
               >
-                <span>Modelni ishga tushirish va kalkulyatorga o&apos;tish</span>
+                <span>500 ta MMTda modelni o&apos;qitish va kalkulyatorni ochish</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => onNavigate('studio-data')}
-                className="px-4 py-2.5 rounded-[3px] border border-[#C5C2B8] dark:border-[#2C3240] bg-white dark:bg-[#151921] hover:bg-[#EAE8E1] dark:hover:bg-[#1E2430] text-xs font-semibold transition-colors"
+                className="px-3.5 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/70 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
               >
-                Ma&apos;lumotlar jadvalini ko&apos;rish ({datasetCount})
+                Ma&apos;lumotlar bazasi ({datasetCount})
               </button>
             </div>
           </div>
 
-          {/* Right: Structured Hairline Ledger Box */}
-          <div className="lg:col-span-4 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
-            <div className="px-4 py-2.5 border-b border-[#E6E4DD] dark:border-[#1E222B] flex items-center justify-between">
-              <span className="mono-num text-[11px] font-semibold uppercase tracking-wider text-[#5A6065] dark:text-slate-400">
-                Asosiy ko&apos;rsatkichlar
-              </span>
-              <span className="mono-num text-[11px] text-[#0F5338] dark:text-emerald-400">
-                2026 → 2031
-              </span>
+          {/* 4 Quant Metric Tiles */}
+          <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+            <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3.5">
+              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                2031 Bazaviy Bozor Ulushi
+              </div>
+              <div className="mono-num text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+                20% – 30%
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">2026 boshlang&apos;ich: ~4.0%</div>
             </div>
-            <div className="divide-y divide-[#E6E4DD] dark:divide-[#1E222B] text-xs">
-              <div className="px-4 py-2.5 flex items-center justify-between">
-                <span className="text-[#5A6065] dark:text-slate-400">Bazaviy 2031 ulushi</span>
-                <span className="mono-num font-bold text-sm">20.0% – 30.0%</span>
+
+            <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3.5">
+              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                Islomiy MM Banklar (2031)
               </div>
-              <div className="px-4 py-2.5 flex items-center justify-between">
-                <span className="text-[#5A6065] dark:text-slate-400">Islomiy mikromoliya banklari</span>
-                <span className="mono-num font-bold">3 – 5 ta</span>
+              <div className="mono-num text-xl font-bold text-slate-900 dark:text-white mt-1">
+                3 – 5 ta
               </div>
-              <div className="px-4 py-2.5 flex items-center justify-between">
-                <span className="text-[#5A6065] dark:text-slate-400">Ustav kapital talabi</span>
-                <span className="mono-num font-bold">50.0 mlrd so&apos;m</span>
+              <div className="text-[11px] text-slate-400 mt-0.5">Kapital talabi: ≥50 mlrd</div>
+            </div>
+
+            <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3.5">
+              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                Model ROC-AUC
               </div>
-              <div className="px-4 py-2.5 flex items-center justify-between">
-                <span className="text-[#5A6065] dark:text-slate-400">Joriy model ROC-AUC</span>
-                <span className="mono-num font-bold text-[#0F5338] dark:text-emerald-400">
-                  {rocAuc !== null ? rocAuc.toFixed(3) : isPreprocessed ? 'Tayyor' : 'Bazaviy'}
-                </span>
+              <div className="mono-num text-xl font-bold text-slate-900 dark:text-white mt-1">
+                {rocAuc !== null ? rocAuc.toFixed(3) : isPreprocessed ? 'Tayyor' : 'Bazaviy'}
               </div>
-              <div className="px-4 py-2.5 flex items-center justify-between">
-                <span className="text-[#5A6065] dark:text-slate-400">Saqlangan qaydlar</span>
-                <span className="mono-num font-bold">{reportsCount} ta</span>
+              <div className="text-[11px] text-slate-400 mt-0.5">Logistik Regressiya (L2)</div>
+            </div>
+
+            <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3.5">
+              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                Saqlangan Ssenariylar
               </div>
+              <div className="mono-num text-xl font-bold text-slate-900 dark:text-white mt-1">
+                {reportsCount} ta
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">CSV eksport tayyor</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Main 2-Column Research Grid: Forecast Chart & Table (8 cols) + Legal Ledger (4 cols) */}
+      {/* Main 2-Column Grid: Forecast Chart & Table (8 cols) + Regulatory Timeline (4 cols) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left 8 Cols: 3-Scenario Trajectory & Year-by-Year Table */}
-        <div className="lg:col-span-8 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
-          <div className="p-5 border-b border-[#E6E4DD] dark:border-[#1E222B] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="lg:col-span-8 bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg">
+          <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h2 className="font-display text-lg font-bold text-[#111315] dark:text-white">
-                1-rasm. Islomiy mikromoliya portfeli ulushi prognozi (2026–2031)
+              <h2 className="font-display text-base font-bold text-slate-900 dark:text-white">
+                Islomiy mikromoliya portfeli ulushi prognozi (2026–2031)
               </h2>
-              <p className="text-xs text-[#5A6065] dark:text-slate-400 mt-0.5">
-                Umumiy mikromoliya bozoridagi ulush (%, yillik dinamika)
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Umumiy mikromoliya bozoridagi ulush (%, 3 ta ssenariy taqqoslovi)
               </p>
             </div>
 
-            {/* Segmented Control */}
-            <div className="inline-flex border border-[#D5D3CC] dark:border-[#262B36] rounded-[3px] overflow-hidden text-xs">
+            <div className="inline-flex shrink-0 p-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
               {(['conservative', 'baseline', 'optimistic'] as MacroScenario[]).map((key) => (
                 <button
                   key={key}
                   onClick={() => setScenario(key)}
-                  className={`px-3 py-1.5 font-medium transition-colors ${
+                  className={`px-3 py-1 rounded-xs font-semibold transition-colors ${
                     scenario === key
-                      ? 'bg-[#111315] dark:bg-white text-white dark:text-[#111315] font-semibold'
-                      : 'bg-white dark:bg-[#11141A] text-[#5A6065] dark:text-slate-400 hover:bg-[#F4F3EE] dark:hover:bg-[#1A1E26]'
+                      ? 'bg-blue-600 text-white'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {key === 'conservative'
@@ -273,42 +276,41 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
           </div>
 
           <div className="p-5 space-y-5">
-            {/* Selected Scenario Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#E6E4DD] dark:bg-[#1E222B] border border-[#E6E4DD] dark:border-[#1E222B]">
-              <div className="bg-[#FAF9F5] dark:bg-[#151921] p-3">
-                <div className="text-[11px] text-[#5A6065] dark:text-slate-400">2031-yil ulushi</div>
-                <div className="mono-num text-xl font-bold text-[#0F5338] dark:text-emerald-400 mt-0.5">
+            {/* Active Scenario Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3">
+                <div className="text-[11px] text-slate-500">2031-yil ulushi</div>
+                <div className="mono-num text-lg font-bold text-blue-600 dark:text-blue-400 mt-0.5">
                   {active.share2031}
                 </div>
               </div>
-              <div className="bg-[#FAF9F5] dark:bg-[#151921] p-3">
-                <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Yillik o&apos;sish (CAGR)</div>
-                <div className="mono-num text-xl font-bold mt-0.5">{active.cagr}</div>
+              <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3">
+                <div className="text-[11px] text-slate-500">Yillik o&apos;sish (CAGR)</div>
+                <div className="mono-num text-lg font-bold mt-0.5">{active.cagr}</div>
               </div>
-              <div className="bg-[#FAF9F5] dark:bg-[#151921] p-3">
-                <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Islomiy MM banklar</div>
-                <div className="mono-num text-xl font-bold mt-0.5">{active.banksCount}</div>
+              <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3">
+                <div className="text-[11px] text-slate-500">Islomiy MM banklar</div>
+                <div className="mono-num text-lg font-bold mt-0.5">{active.banksCount}</div>
               </div>
-              <div className="bg-[#FAF9F5] dark:bg-[#151921] p-3">
-                <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Tashqi va ichki fondlash</div>
-                <div className="mono-num text-xl font-bold mt-0.5">{active.fundingTarget}</div>
+              <div className="rounded-md bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3">
+                <div className="text-[11px] text-slate-500">Jalb etiladigan fondlash</div>
+                <div className="mono-num text-lg font-bold mt-0.5">{active.fundingTarget}</div>
               </div>
             </div>
 
-            {/* Multi-line Chart */}
-            <div className="h-[240px]">
+            <div className="h-[235px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={COMBINED_YEARS} margin={{ top: 8, right: 16, left: -14, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="2 2" stroke="#D5D3CC" strokeOpacity={0.5} />
-                  <XAxis dataKey="year" tick={{ fontSize: 11 }} stroke="#5A6065" />
-                  <YAxis unit="%" domain={[0, 45]} tick={{ fontSize: 11 }} stroke="#5A6065" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#CBD5E1" strokeOpacity={0.4} />
+                  <XAxis dataKey="year" tick={{ fontSize: 11 }} stroke="#64748B" />
+                  <YAxis unit="%" domain={[0, 45]} tick={{ fontSize: 11 }} stroke="#64748B" />
                   <Tooltip
                     formatter={(v: number) => [`${v.toFixed(1)}%`, '']}
                     contentStyle={{
-                      borderRadius: '2px',
-                      border: '1px solid #262B36',
-                      backgroundColor: '#11141A',
-                      color: '#EAECEF',
+                      borderRadius: '6px',
+                      border: '1px solid #334155',
+                      backgroundColor: '#0F172A',
+                      color: '#F8FAFC',
                       fontSize: '12px',
                     }}
                   />
@@ -316,8 +318,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                     type="monotone"
                     dataKey="optimistic"
                     name="Optimistik"
-                    stroke="#B45309"
-                    strokeWidth={scenario === 'optimistic' ? 2.8 : 1.5}
+                    stroke="#0284C7"
+                    strokeWidth={scenario === 'optimistic' ? 3 : 1.5}
                     strokeDasharray={scenario === 'optimistic' ? undefined : '4 3'}
                     dot={{ r: 3 }}
                   />
@@ -325,7 +327,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                     type="monotone"
                     dataKey="baseline"
                     name="Bazaviy"
-                    stroke="#0F5338"
+                    stroke="#2563EB"
                     strokeWidth={scenario === 'baseline' ? 3 : 1.8}
                     dot={{ r: 3.5 }}
                   />
@@ -334,7 +336,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                     dataKey="conservative"
                     name="Konservativ"
                     stroke="#64748B"
-                    strokeWidth={scenario === 'conservative' ? 2.8 : 1.5}
+                    strokeWidth={scenario === 'conservative' ? 3 : 1.5}
                     strokeDasharray={scenario === 'conservative' ? undefined : '3 3'}
                     dot={{ r: 3 }}
                   />
@@ -342,15 +344,15 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               </ResponsiveContainer>
             </div>
 
-            <div className="text-xs text-[#454A4F] dark:text-slate-300 border-l-2 border-[#0F5338] pl-3 py-0.5">
-              <strong>{active.label} sharti:</strong> {active.assumption}
+            <div className="text-xs text-slate-600 dark:text-slate-300 bg-blue-50/60 dark:bg-blue-950/30 border-l-2 border-blue-600 px-3.5 py-2 rounded-r-md">
+              <strong>{active.label}:</strong> {active.assumption}
             </div>
 
-            {/* Year-by-year tabular readout */}
-            <div className="overflow-x-auto border-t border-[#E6E4DD] dark:border-[#1E222B] pt-3">
+            {/* Scenario Comparison Table */}
+            <div className="overflow-x-auto border-t border-slate-200 dark:border-slate-800 pt-3">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="text-[#5A6065] dark:text-slate-400 border-b border-[#E6E4DD] dark:border-[#1E222B]">
+                  <tr className="text-slate-500 border-b border-slate-200 dark:border-slate-800">
                     <th className="py-2 font-semibold">Ssenariy</th>
                     {COMBINED_YEARS.map((y) => (
                       <th key={y.year} className="py-2 font-semibold mono-num text-right">
@@ -359,8 +361,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#F0EFEA] dark:divide-[#1A1E26] mono-num">
-                  <tr className={scenario === 'conservative' ? 'bg-[#F4F3EE] dark:bg-slate-800/50 font-bold' : ''}>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70 mono-num">
+                  <tr className={scenario === 'conservative' ? 'bg-slate-50 dark:bg-slate-800/50 font-bold' : ''}>
                     <td className="py-2 font-sans">Konservativ</td>
                     {COMBINED_YEARS.map((y) => (
                       <td key={y.year} className="py-2 text-right">
@@ -368,7 +370,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                       </td>
                     ))}
                   </tr>
-                  <tr className={scenario === 'baseline' ? 'bg-[#F4F3EE] dark:bg-slate-800/50 font-bold text-[#0F5338] dark:text-emerald-400' : ''}>
+                  <tr className={scenario === 'baseline' ? 'bg-blue-50/50 dark:bg-blue-950/30 font-bold text-blue-600 dark:text-blue-400' : ''}>
                     <td className="py-2 font-sans">Bazaviy (asosiy)</td>
                     {COMBINED_YEARS.map((y) => (
                       <td key={y.year} className="py-2 text-right">
@@ -376,7 +378,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                       </td>
                     ))}
                   </tr>
-                  <tr className={scenario === 'optimistic' ? 'bg-[#F4F3EE] dark:bg-slate-800/50 font-bold' : ''}>
+                  <tr className={scenario === 'optimistic' ? 'bg-slate-50 dark:bg-slate-800/50 font-bold' : ''}>
                     <td className="py-2 font-sans">Optimistik</td>
                     {COMBINED_YEARS.map((y) => (
                       <td key={y.year} className="py-2 text-right">
@@ -390,32 +392,32 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
           </div>
         </div>
 
-        {/* Right 4 Cols: Vertical Archival Legal Ledger (No fake progress bars!) */}
-        <div className="lg:col-span-4 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
-          <div className="p-5 border-b border-[#E6E4DD] dark:border-[#1E222B]">
-            <h2 className="font-display text-lg font-bold text-[#111315] dark:text-white">
-              Me&apos;yoriy-huquqiy xronologiya
+        {/* Right 4 Cols: Regulatory Timeline */}
+        <div className="lg:col-span-4 bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg">
+          <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800">
+            <h2 className="font-display text-base font-bold text-slate-900 dark:text-white">
+              Me&apos;yoriy-huquqiy baza (2024–2026)
             </h2>
-            <p className="text-xs text-[#5A6065] dark:text-slate-400 mt-0.5">
-              2024–2026-yilgi islohotlar va 2031-yilgi maqsad
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Islomiy mikromoliyani tartibga soluvchi hujjatlar
             </p>
           </div>
 
-          <div className="p-5 divide-y divide-[#E6E4DD] dark:divide-[#1E222B]">
+          <div className="p-5 divide-y divide-slate-200 dark:divide-slate-800">
             {LEGAL_LEDGER.map((item) => (
               <div key={item.date} className="py-3.5 first:pt-0 last:pb-0">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="mono-num text-[11px] font-bold text-[#0F5338] dark:text-emerald-400">
+                  <span className="mono-num text-[11px] font-bold text-blue-600 dark:text-blue-400">
                     {item.date}
                   </span>
-                  <span className="mono-num text-[11px] text-[#5A6065] dark:text-slate-400">
+                  <span className="mono-num text-[11px] px-2 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                     {item.doc}
                   </span>
                 </div>
-                <h3 className="text-xs font-bold text-[#111315] dark:text-white mt-1">
+                <h3 className="text-xs font-bold text-slate-900 dark:text-white mt-1.5">
                   {item.title}
                 </h3>
-                <p className="text-xs text-[#5A6065] dark:text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                   {item.note}
                 </p>
               </div>
@@ -424,76 +426,65 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
         </div>
       </section>
 
-      {/* Bottom Comparative Regional Table (Replaces the 5 repetitive cards) */}
-      <section className="bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
-        <div className="p-5 border-b border-[#E6E4DD] dark:border-[#1E222B] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div>
-            <h2 className="font-display text-lg font-bold text-[#111315] dark:text-white">
-              1-jadval. Hududlar kesimida islomiy mikromoliya indeksi
-            </h2>
-            <p className="text-xs text-[#5A6065] dark:text-slate-400 mt-0.5">
-              Hududiy talab, raqamli infratuzilma va ustuvor shariat shartnomalari
-            </p>
-          </div>
+      {/* Bottom Regional Quantitative Matrix */}
+      <section className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-800">
+          <h2 className="font-display text-base font-bold text-slate-900 dark:text-white">
+            Hududlar kesimida islomiy mikromoliya ko&apos;rsatkichlari
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Hududiy talab, raqamli infratuzilma va 2031-yilgi prognoz ulushi
+          </p>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#FAF9F5] dark:bg-[#151921] text-[#5A6065] dark:text-slate-400 border-b border-[#E6E4DD] dark:border-[#1E222B]">
+            <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="px-5 py-3 font-semibold">Hudud</th>
                 <th className="px-5 py-3 font-semibold">Shariatga mos talab</th>
                 <th className="px-5 py-3 font-semibold">Raqamli / BNPL tayyorlik</th>
                 <th className="px-5 py-3 font-semibold">O&apos;rtacha MMT kapitali</th>
-                <th className="px-5 py-3 font-semibold">Asosiy mahsulot</th>
+                <th className="px-5 py-3 font-semibold">Ustuvor shartnoma</th>
                 <th className="px-5 py-3 font-semibold">2031 prognoz</th>
-                <th className="px-5 py-3 font-semibold text-right">Simulyatsiya</th>
+                <th className="px-5 py-3 font-semibold text-right">Amal</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E6E4DD] dark:divide-[#1E222B]">
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               {REGIONAL_TABLE.map((row) => (
-                <tr
-                  key={row.region}
-                  className="hover:bg-[#FAF9F5] dark:hover:bg-[#161A22] transition-colors"
-                >
-                  <td className="px-5 py-3.5 font-semibold text-[#111315] dark:text-white">
+                <tr key={row.region} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
+                  <td className="px-5 py-3.5 font-semibold text-slate-900 dark:text-white">
                     {row.region}
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2.5">
                       <span className="mono-num font-semibold w-9">{row.demand}%</span>
-                      <div className="w-24 h-1.5 bg-[#E6E4DD] dark:bg-slate-800 rounded-[1px] overflow-hidden">
-                        <div
-                          style={{ width: `${row.demand}%` }}
-                          className="h-full bg-[#0F5338] dark:bg-emerald-500"
-                        />
+                      <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div style={{ width: `${row.demand}%` }} className="h-full bg-blue-600" />
                       </div>
                     </div>
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2.5">
                       <span className="mono-num w-9">{row.digital}/100</span>
-                      <div className="w-24 h-1.5 bg-[#E6E4DD] dark:bg-slate-800 rounded-[1px] overflow-hidden">
-                        <div
-                          style={{ width: `${row.digital}%` }}
-                          className="h-full bg-slate-600 dark:bg-slate-400"
-                        />
+                      <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div style={{ width: `${row.digital}%` }} className="h-full bg-sky-500" />
                       </div>
                     </div>
                   </td>
                   <td className="px-5 py-3.5 mono-num">{row.capitalAvg} mlrd so&apos;m</td>
-                  <td className="px-5 py-3.5 text-[#454A4F] dark:text-slate-300">
+                  <td className="px-5 py-3.5 text-slate-600 dark:text-slate-300">
                     {row.primaryContract}
                   </td>
-                  <td className="px-5 py-3.5 mono-num font-bold text-[#0F5338] dark:text-emerald-400">
+                  <td className="px-5 py-3.5 mono-num font-bold text-blue-600 dark:text-blue-400">
                     {row.projected2031}
                   </td>
                   <td className="px-5 py-3.5 text-right">
                     <button
                       onClick={() => onSimulateRegion(row.region)}
-                      className="text-xs font-semibold text-[#0F5338] dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
+                      className="px-2.5 py-1 rounded-xs bg-slate-100 hover:bg-blue-600 hover:text-white dark:bg-slate-800 dark:hover:bg-blue-600 text-xs font-semibold text-slate-700 dark:text-slate-200 inline-flex items-center gap-1 transition-colors"
                     >
-                      <span>Kalkulyatorda ochish</span>
+                      <span>Simulyatsiya</span>
                       <ArrowRight className="w-3 h-3" />
                     </button>
                   </td>
