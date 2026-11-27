@@ -4,11 +4,18 @@
 
 @layer base {
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F4F3EE;
+    color: #111315;
+  }
+
+  .dark body {
+    background-color: #0C0E12;
+    color: #EAECEF;
   }
 
   .font-display {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
   }
 
   .mono-num {
@@ -17,58 +24,41 @@
   }
 }
 
-/* Warm Silk-Road Ivory canvas in light mode, Deep Obsidian-Teal in dark mode */
+/* Clean, flat editorial canvas — no radial glow gradients or decorative patterns */
 .bg-mizan-canvas {
-  background-color: #FAF9F6;
-  background-image:
-    radial-gradient(ellipse 70% 40% at 10% -5%, rgba(15, 76, 92, 0.08), transparent 60%),
-    radial-gradient(ellipse 55% 35% at 92% 0%, rgba(217, 119, 6, 0.07), transparent 55%);
+  background-color: #F4F3EE;
 }
 
 .dark .bg-mizan-canvas {
-  background-color: #090E17;
-  background-image:
-    radial-gradient(ellipse 70% 40% at 10% -5%, rgba(13, 148, 136, 0.14), transparent 60%),
-    radial-gradient(ellipse 55% 35% at 92% 0%, rgba(245, 158, 11, 0.08), transparent 55%);
+  background-color: #0C0E12;
 }
 
-/* Subtle Uzbek Girih geometric pattern overlay for hero cards */
-.girih-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23d97706' stroke-opacity='0.09' stroke-width='1'%3E%3Cpolygon points='30,4 38,22 56,30 38,38 30,56 22,38 4,30 22,22'/%3E%3Ccircle cx='30' cy='30' r='8'/%3E%3C/g%3E%3C/svg%3E");
-}
-
-/* Custom Teal-Gold range slider */
+/* Crisp institutional range slider */
 input[type='range'].mizan-slider {
   -webkit-appearance: none;
   appearance: none;
-  height: 6px;
-  border-radius: 999px;
-  background: #E7E5E0;
+  height: 4px;
+  border-radius: 2px;
+  background: #D5D3CC;
   outline: none;
 }
 
 .dark input[type='range'].mizan-slider {
-  background: #1E293B;
+  background: #262B36;
 }
 
 input[type='range'].mizan-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 17px;
-  height: 17px;
-  border-radius: 999px;
-  background: #0F4C5C;
-  border: 2.5px solid #F59E0B;
-  box-shadow: 0 2px 6px rgba(15, 76, 92, 0.35);
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: #0F5338;
+  border: 1.5px solid #FFFFFF;
   cursor: pointer;
-  transition: transform 0.15s ease;
 }
 
 .dark input[type='range'].mizan-slider::-webkit-slider-thumb {
-  background: #14B8A6;
-  border: 2.5px solid #FBBF24;
-}
-
-input[type='range'].mizan-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.14);
+  background: #2DD4BF;
+  border: 1.5px solid #0C0E12;
 }

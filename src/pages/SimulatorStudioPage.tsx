@@ -1,18 +1,10 @@
 import React, { useMemo, useState } from 'react';
+import { ArrowRight, BookmarkPlus, Check, RotateCcw } from 'lucide-react';
 import {
-  ArrowRight,
-  BookmarkPlus,
-  Check,
-  Lightbulb,
-  RotateCcw,
-  Sparkles,
-  TrendingUp,
-} from 'lucide-react';
-import {
-  Area,
-  AreaChart,
   CartesianGrid,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -46,18 +38,20 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
   const pct = Math.round(result.probability * 1000) / 10;
   const projected2031 = result.yearlyTrajectory[result.yearlyTrajectory.length - 1]?.sharePct ?? 25;
 
-  // Dynamic 2031 Islamic Product Mix estimate based on user's selected primary product & digitalization
   const productMix2031 = useMemo(() => {
     const base = { Murabaha: 48, Ijara: 24, Salam: 16, Musharaka: 12 };
     base[input.mahsulotTuri] += 14;
     if (input.raqamlashtirish >= 70) base.Murabaha += 6;
     if (input.hudud === 'Qashqadaryo' || input.hudud === 'Samarqand') base.Salam += 6;
     const sum = base.Murabaha + base.Ijara + base.Salam + base.Musharaka;
+    const mPct = Math.round((base.Murabaha / sum) * 100);
+    const iPct = Math.round((base.Ijara / sum) * 100);
+    const sPct = Math.round((base.Salam / sum) * 100);
     return [
-      { name: 'Murabaha', pct: Math.round((base.Murabaha / sum) * 100), color: 'bg-[#0F4C5C] dark:bg-teal-500' },
-      { name: 'Ijara', pct: Math.round((base.Ijara / sum) * 100), color: 'bg-teal-500 dark:bg-teal-300' },
-      { name: 'Salam', pct: Math.round((base.Salam / sum) * 100), color: 'bg-amber-500' },
-      { name: 'Musharaka', pct: Math.max(5, 100 - Math.round((base.Murabaha / sum) * 100) - Math.round((base.Ijara / sum) * 100) - Math.round((base.Salam / sum) * 100)), color: 'bg-amber-300' },
+      { name: 'Murabaha (nasiya savdo)', pct: mPct, color: 'bg-[#0F5338]' },
+      { name: 'Ijara (islomiy lizing)', pct: iPct, color: 'bg-[#2E7D5B]' },
+      { name: 'Salam (agrar avans)', pct: sPct, color: 'bg-[#B45309]' },
+      { name: 'Musharaka (sheriklik)', pct: Math.max(4, 100 - mPct - iPct - sPct), color: 'bg-[#78716C]' },
     ];
   }, [input.mahsulotTuri, input.raqamlashtirish, input.hudud]);
 
@@ -71,8 +65,8 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
   const whatIfLevers = useMemo(() => {
     const list: { title: string; desc: string; next: SimulatorInput }[] = [
       {
-        title: "Islomiy mikromoliya bankiga o'tish",
-        desc: "Kapitalni 58 mlrd so'mga oshirish (O'RQ-1026) va raqamli Murabaha ulushini 85 ballga yetkazish.",
+        title: "Islomiy mikromoliya bankiga o'tish (O'RQ-1026)",
+        desc: "Kapitalni 58 mlrd so'mga oshirish va raqamli Murabaha indeksini 85 ga yetkazish.",
         next: {
           ...input,
           kapitalHajmi: Math.max(input.kapitalHajmi, 58),
@@ -81,13 +75,13 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
         },
       },
       {
-        title: 'Soliq & QQS neytralligi islohoti',
+        title: 'Soliq neytralligi (QQS islohoti)',
         desc: "Murabaha va Ijara bitimlarida ikki karra soliq yukini yechib, to'siq indeksini 2.0 ga tushirish.",
         next: { ...input, soliqYuklamasi: 2.0 },
       },
       {
         title: "Farg'ona vodiysi raqamli BNPL",
-        desc: "Yuqori talabli hududda (85%) AAOIFI sertifikatli mobil Murabaha platformasini ishga tushirish.",
+        desc: "Yuqori talabli hududda (85%) AAOIFI sertifikatli mobil Murabaha tizimini ishga tushirish.",
         next: {
           ...input,
           hudud: "Farg'ona vodiysi",
@@ -116,63 +110,60 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="border-b border-[#D5D3CC] dark:border-[#222630] pb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            5 Yillik Simulyator va XAI Tahlil
+          <div className="mono-num text-[11px] uppercase tracking-widest text-[#5A6065] dark:text-slate-400">
+            04-bo&apos;lim · Individual MMT prognozi va omillar dekompozitsiyasi
+          </div>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#111315] dark:text-white mt-1">
+            5 yillik ssenariy kalkulyatori (2026–2031)
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Parametrlarni boshqaring, 2026–2031 trajektoriyasini, mahsulotlar tarkibini va omillar hissasini real vaqtda ko&apos;ring
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={() => onChangeInput(DEFAULT_SIMULATOR_INPUT)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200"
+            className="px-3.5 py-2 rounded-[3px] border border-[#C5C2B8] dark:border-[#2C3240] bg-white dark:bg-[#151921] text-xs font-medium inline-flex items-center gap-1.5"
           >
-            <RotateCcw className="w-4 h-4" />
-            <span>Tiklash</span>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Dastlabki qiymatlar</span>
           </button>
 
           <button
             onClick={handleSave}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0F4C5C] hover:bg-[#136074] dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-slate-950 text-sm font-bold shadow-sm"
+            className="px-4 py-2 rounded-[3px] bg-[#0F5338] hover:bg-[#0B3E2A] text-white text-xs font-semibold inline-flex items-center gap-1.5"
           >
-            {savedFeedback ? <Check className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
-            <span>{savedFeedback ? 'Hisobotga saqlandi!' : 'Ssenariyni saqlash'}</span>
+            {savedFeedback ? <Check className="w-3.5 h-3.5" /> : <BookmarkPlus className="w-3.5 h-3.5" />}
+            <span>{savedFeedback ? 'Qaydlarga saqlandi' : 'Qaydlarga saqlash'}</span>
           </button>
         </div>
       </div>
 
-      {/* Main Split: Controls (5 cols) + Forecast Canvas (7 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Controls */}
-        <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-6 shadow-sm space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">MMT Parametrlari</h2>
-            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/25">
-              {model.isBaseline ? 'Bazaviy model' : "O'qitilgan model"}
+      {/* Main Split: Left Inputs (5 cols) + Right Output Ledger (7 cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left Inputs */}
+        <div className="lg:col-span-5 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px] p-5 space-y-4">
+          <div className="flex items-center justify-between border-b border-[#E6E4DD] dark:border-[#1E222B] pb-3">
+            <h2 className="text-sm font-bold">Kirish parametrlari (X)</h2>
+            <span className="mono-num text-[11px] text-[#5A6065]">
+              Model: {model.isBaseline ? 'Bazaviy' : "O'qitilgan"}
             </span>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
-              Ssenariy / MMT nomi
-            </label>
+            <label className="block text-xs font-semibold mb-1">Tashkilot / Ssenariy nomi</label>
             <input
               type="text"
               value={input.name}
               onChange={(e) => onChangeInput({ ...input, name: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 text-sm"
+              className="w-full px-3 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
             />
           </div>
 
-          {/* 4 Sliders */}
           {[
             {
               key: 'shariatTalabi' as const,
-              label: 'Shariatga mos talab (%)',
+              label: '1. Shariatga mos talab ulushi (%)',
               min: 10,
               max: 95,
               step: 1,
@@ -180,36 +171,33 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
             },
             {
               key: 'raqamlashtirish' as const,
-              label: 'Raqamlashtirish & BNPL (ball)',
+              label: '2. Raqamlashtirish va BNPL indeksi',
               min: 0,
               max: 100,
               step: 1,
-              suffix: ' ball',
+              suffix: ' / 100',
             },
             {
               key: 'kapitalHajmi' as const,
-              label: "Ustav kapitali (50 mlrd = Bank)",
+              label: "3. Ustav kapitali (50 mlrd = Bank chegarasi)",
               min: 5,
               max: 80,
               step: 1,
-              suffix: ' mlrd',
+              suffix: " mlrd so'm",
             },
             {
               key: 'soliqYuklamasi' as const,
-              label: "Soliq va operatsion to'siq (1–10)",
+              label: "4. Soliq va operatsion to'siq indeksi",
               min: 1,
               max: 10,
               step: 0.5,
               suffix: ' / 10',
             },
           ].map((s) => (
-            <div
-              key={s.key}
-              className="rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200 dark:border-slate-800 p-3.5"
-            >
-              <div className="flex justify-between text-xs font-semibold mb-1.5">
-                <span className="text-slate-700 dark:text-slate-300">{s.label}</span>
-                <span className="mono-num font-bold text-[#0F4C5C] dark:text-teal-400">
+            <div key={s.key} className="pt-2 border-t border-[#F0EFEA] dark:border-[#1A1E26]">
+              <div className="flex justify-between text-xs font-medium mb-1.5">
+                <span>{s.label}</span>
+                <span className="mono-num font-bold text-[#0F5338] dark:text-emerald-400">
                   {input[s.key]}
                   {s.suffix}
                 </span>
@@ -226,15 +214,13 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
             </div>
           ))}
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 pt-2 border-t border-[#E6E4DD] dark:border-[#1E222B]">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                Hudud
-              </label>
+              <label className="block text-xs font-semibold mb-1">Hudud</label>
               <select
                 value={input.hudud}
                 onChange={(e) => onChangeInput({ ...input, hudud: e.target.value as Region })}
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 text-xs sm:text-sm"
+                className="w-full px-2.5 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
                 {REGIONS.map((r) => (
                   <option key={r} value={r}>
@@ -243,17 +229,14 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
                 ))}
               </select>
             </div>
-
             <div>
-              <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
-                Asosiy mahsulot
-              </label>
+              <label className="block text-xs font-semibold mb-1">Ustuvor shartnoma</label>
               <select
                 value={input.mahsulotTuri}
                 onChange={(e) =>
                   onChangeInput({ ...input, mahsulotTuri: e.target.value as IslamicProduct })
                 }
-                className="w-full px-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 text-xs sm:text-sm"
+                className="w-full px-2.5 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
                 {PRODUCTS.map((p) => (
                   <option key={p} value={p}>
@@ -265,191 +248,182 @@ export const SimulatorStudioPage: React.FC<SimulatorStudioPageProps> = ({
           </div>
         </div>
 
-        {/* Right: Executive Forecast Canvas */}
+        {/* Right Output Ledger */}
         <div className="lg:col-span-7 space-y-5">
-          {/* Top KPI Verdict Banner */}
-          <div className="rounded-2xl bg-[#0F4C5C] dark:bg-[#0B2A35] text-white p-6 shadow-md relative overflow-hidden">
-            <div className="absolute inset-0 girih-pattern pointer-events-none" />
-            <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-              <div>
-                <div className="text-xs text-teal-200">5 yillik transformatsiya ehtimoli</div>
-                <div className="mono-num text-4xl font-extrabold text-amber-300 mt-1">
-                  {pct.toFixed(1)}%
-                </div>
-                <div className="mono-num text-[11px] text-teal-200/80 mt-1">
-                  z = {result.z.toFixed(2)} · {result.impactLevel} ta&apos;sir
-                </div>
+          {/* 3-Column Hairline Readout */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[#D5D3CC] dark:bg-[#222630] border border-[#D5D3CC] dark:border-[#222630]">
+            <div className="bg-white dark:bg-[#11141A] p-4">
+              <div className="text-[11px] text-[#5A6065] dark:text-slate-400">
+                Transformatsiya ehtimoli P(y=1)
               </div>
+              <div className="mono-num text-2xl font-bold text-[#0F5338] dark:text-emerald-400 mt-1">
+                {pct.toFixed(1)}%
+              </div>
+              <div className="mono-num text-[11px] text-[#5A6065] mt-0.5">
+                logit z = {result.z.toFixed(3)} ({result.impactLevel})
+              </div>
+            </div>
 
-              <div className="sm:border-l sm:border-white/15 sm:pl-4">
-                <div className="text-xs text-teal-200">2031-yil kutilayotgan portfel ulushi</div>
-                <div className="mono-num text-3xl font-extrabold text-white mt-1">
-                  {projected2031}%
-                </div>
-                <div className="text-[11px] text-teal-200/80 mt-1">2026 bazasi: 4.0%</div>
+            <div className="bg-white dark:bg-[#11141A] p-4">
+              <div className="text-[11px] text-[#5A6065] dark:text-slate-400">
+                2031-yil kutilayotgan portfel ulushi
               </div>
+              <div className="mono-num text-2xl font-bold mt-1">{projected2031}%</div>
+              <div className="mono-num text-[11px] text-[#5A6065] mt-0.5">2026 bazasi: 4.0%</div>
+            </div>
 
-              <div className="sm:border-l sm:border-white/15 sm:pl-4">
-                <div className="text-xs text-teal-200">Bank maqomi (O&apos;RQ-1026)</div>
-                <div className="text-sm font-bold text-amber-300 mt-1.5">
-                  {input.kapitalHajmi >= 50
-                    ? 'Islomiy mikromoliya bankiga tayyor'
-                    : `Yana ${50 - input.kapitalHajmi} mlrd so'm kerak`}
-                </div>
+            <div className="bg-white dark:bg-[#11141A] p-4">
+              <div className="text-[11px] text-[#5A6065] dark:text-slate-400">
+                O&apos;RQ-1026 Bank litsenziyasi
               </div>
+              <div className="text-xs font-bold mt-1.5">
+                {input.kapitalHajmi >= 50 ? (
+                  <span className="text-[#0F5338] dark:text-emerald-400">
+                    Talab bajarilgan (≥ 50 mlrd)
+                  </span>
+                ) : (
+                  <span className="text-amber-700 dark:text-amber-400">
+                    Kamomad: -{50 - input.kapitalHajmi} mlrd so&apos;m
+                  </span>
+                )}
+              </div>
+              <div className="text-[11px] text-[#5A6065] mt-0.5">Islomiy mikromoliya banki</div>
             </div>
           </div>
 
-          {/* 5-Year Trajectory Chart */}
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-5 shadow-sm">
+          {/* 5-Year Trajectory Line Chart */}
+          <div className="bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px] p-5">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                <TrendingUp className="w-4 h-4 text-[#0F4C5C] dark:text-teal-400" />
-                <span>2026–2031 Islomiy mikromoliya ulushi trajektoriyasi</span>
+              <h3 className="text-sm font-bold">
+                2026–2031-yillarda islomiy portfel ulushi dinamikasi (%)
               </h3>
             </div>
-            <div className="h-[205px]">
+            <div className="h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={result.yearlyTrajectory} margin={{ top: 6, right: 12, left: -14, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="simGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#0D9488" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#0D9488" stopOpacity={0.02} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#94A3B8" strokeOpacity={0.2} />
-                  <XAxis dataKey="year" tick={{ fontSize: 11 }} stroke="#64748B" />
-                  <YAxis unit="%" domain={[0, 48]} tick={{ fontSize: 11 }} stroke="#64748B" />
+                <LineChart data={result.yearlyTrajectory} margin={{ top: 6, right: 12, left: -14, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="2 2" stroke="#D5D3CC" strokeOpacity={0.5} />
+                  <XAxis dataKey="year" tick={{ fontSize: 11 }} stroke="#5A6065" />
+                  <YAxis unit="%" domain={[0, 48]} tick={{ fontSize: 11 }} stroke="#5A6065" />
                   <Tooltip
                     formatter={(v: number) => [`${v}%`, '']}
                     contentStyle={{
-                      borderRadius: '12px',
-                      border: '1px solid #334155',
-                      backgroundColor: '#0F172A',
-                      color: '#F8FAFC',
+                      borderRadius: '2px',
+                      border: '1px solid #262B36',
+                      backgroundColor: '#11141A',
+                      color: '#EAECEF',
                       fontSize: '12px',
                     }}
                   />
                   <Legend wrapperStyle={{ fontSize: '11px' }} />
-                  <Area type="monotone" dataKey="sharePct" name="Joriy ssenariy" stroke="#0D9488" strokeWidth={3} fill="url(#simGrad)" />
-                  <Area type="monotone" dataKey="baselinePct" name="Bazaviy (27%)" stroke="#94A3B8" strokeDasharray="4 4" fill="none" />
-                  <Area type="monotone" dataKey="optimisticPct" name="Optimistik (41.5%)" stroke="#D97706" strokeDasharray="3 3" fill="none" />
-                </AreaChart>
+                  <Line type="monotone" dataKey="sharePct" name="Joriy MMT prognozi" stroke="#0F5338" strokeWidth={2.8} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="baselinePct" name="Respublika bazaviy (27%)" stroke="#64748B" strokeDasharray="4 3" dot={false} />
+                  <Line type="monotone" dataKey="optimisticPct" name="Optimistik (41.5%)" stroke="#B45309" strokeDasharray="3 3" dot={false} />
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* 2031 Product Mix Evolution Bar + Recommendation */}
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-5 shadow-sm space-y-4">
+          {/* Product Mix + Recommendation */}
+          <div className="bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px] p-5 space-y-4">
             <div>
-              <div className="flex items-center justify-between text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">
-                <span>2031-yil kutilayotgan islomiy mahsulotlar tarkibi</span>
-                <span className="text-slate-400 font-normal">AAOIFI standartlari</span>
+              <div className="flex items-center justify-between text-xs font-bold mb-2">
+                <span>2031-yilda shartnomalar tarkibi (AAOIFI)</span>
+                <span className="mono-num text-[#5A6065] font-normal">Jami: 100%</span>
               </div>
-              <div className="h-3.5 w-full rounded-full overflow-hidden flex gap-0.5">
+              <div className="h-2.5 w-full flex overflow-hidden bg-[#E6E4DD] dark:bg-slate-800">
                 {productMix2031.map((pm) => (
-                  <div key={pm.name} style={{ width: `${pm.pct}%` }} className={pm.color} title={`${pm.name}: ${pm.pct}%`} />
+                  <div key={pm.name} style={{ width: `${pm.pct}%` }} className={pm.color} />
                 ))}
               </div>
-              <div className="mt-2 flex flex-wrap gap-4 text-xs">
+              <div className="mt-2.5 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                 {productMix2031.map((pm) => (
                   <div key={pm.name} className="flex items-center gap-1.5">
-                    <span className={`w-2.5 h-2.5 rounded-sm ${pm.color}`} />
-                    <span className="text-slate-600 dark:text-slate-300">{pm.name}</span>
-                    <span className="mono-num font-bold text-slate-900 dark:text-white">{pm.pct}%</span>
+                    <span className={`w-2 h-2 shrink-0 ${pm.color}`} />
+                    <span className="text-[#5A6065] dark:text-slate-400 truncate">{pm.name.split(' ')[0]}</span>
+                    <span className="mono-num font-bold">{pm.pct}%</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-xl bg-amber-50/80 dark:bg-amber-500/10 border border-amber-200/80 dark:border-amber-500/25 p-3.5 text-xs text-amber-950 dark:text-amber-200 leading-relaxed">
-              <div className="font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1.5 mb-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Strategik xulosa</span>
-              </div>
+            <div className="border-l-2 border-[#0F5338] pl-3.5 py-1 text-xs text-[#454A4F] dark:text-slate-300 leading-relaxed">
+              <strong className="text-[#111315] dark:text-white">Tahliliy xulosa: </strong>
               {result.recommendation}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Integrated XAI & Policy Levers */}
+      {/* Bottom: XAI Decomposition Table + Policy Sensitivity Tests */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-6 shadow-sm">
-          <div className="flex items-center gap-2 mb-3">
-            <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Omillar hissasi (XAI · w × x)
-            </h3>
-          </div>
-          <div className="space-y-2">
-            {sortedContributions.map((c) => {
-              const pos = c.contribution >= 0;
-              return (
-                <div
-                  key={c.featureName}
-                  className="flex items-center justify-between text-xs px-3 py-2 rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200/70 dark:border-slate-800"
-                >
-                  <span className="text-slate-700 dark:text-slate-300">
-                    {c.label} <span className="mono-num text-slate-400">({c.rawValue})</span>
-                  </span>
-                  <span
-                    className={`mono-num font-bold ${
-                      pos ? 'text-[#0F4C5C] dark:text-teal-400' : 'text-rose-600 dark:text-rose-400'
-                    }`}
-                  >
-                    {pos ? '+' : ''}
-                    {c.contribution.toFixed(3)}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+        <div className="lg:col-span-5 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px] p-5">
+          <h3 className="text-sm font-bold mb-3">
+            Logit dekompozitsiyasi (Omillar hissasi: wᵢ × xᵢ)
+          </h3>
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-[#E6E4DD] dark:border-[#1E222B] text-[#5A6065]">
+                <th className="py-2 text-left font-semibold">Omil</th>
+                <th className="py-2 text-right font-semibold">Qiymat</th>
+                <th className="py-2 text-right font-semibold">Ta&apos;sir (Δz)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#F0EFEA] dark:divide-[#1A1E26]">
+              {sortedContributions.map((c) => {
+                const pos = c.contribution >= 0;
+                return (
+                  <tr key={c.featureName}>
+                    <td className="py-2 font-medium">{c.label}</td>
+                    <td className="py-2 text-right mono-num text-[#5A6065]">{c.rawValue}</td>
+                    <td
+                      className={`py-2 text-right mono-num font-bold ${
+                        pos ? 'text-[#0F5338] dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400'
+                      }`}
+                    >
+                      {pos ? '+' : ''}
+                      {c.contribution.toFixed(3)}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
 
-        <div className="lg:col-span-7 rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-6 shadow-sm">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-            &ldquo;Nima bo&apos;ladi agar...&rdquo; — Islohot va strategiya sinovlari
+        <div className="lg:col-span-7 bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px] p-5">
+          <h3 className="text-sm font-bold mb-1">
+            Sezgirlik tahlili (What-If islohot ssenariylari)
           </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
-            Bir tugma bilan ssenariyni qo&apos;llab, 2031-yilgi natija qanchaga o&apos;zgarishini ko&apos;ring
+          <p className="text-xs text-[#5A6065] mb-3.5">
+            Institutsional yoki soliq o&apos;zgarishlarining joriy MMT ehtimoliga ta&apos;siri
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <div className="divide-y divide-[#E6E4DD] dark:divide-[#1E222B] border-t border-[#E6E4DD] dark:border-[#1E222B]">
             {whatIfLevers.map((lv) => (
               <div
                 key={lv.title}
-                className="rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200 dark:border-slate-800 p-4 flex flex-col justify-between"
+                className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span
-                      className={`mono-num text-xs font-extrabold px-2 py-0.5 rounded-full ${
-                        lv.delta >= 0
-                          ? 'bg-teal-100 dark:bg-teal-500/20 text-[#0F4C5C] dark:text-teal-300'
-                          : 'bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300'
-                      }`}
-                    >
+                  <div className="text-xs font-bold">{lv.title}</div>
+                  <div className="text-xs text-[#5A6065] dark:text-slate-400 mt-0.5">{lv.desc}</div>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="text-right mono-num">
+                    <div className="text-xs font-bold text-[#0F5338] dark:text-emerald-400">
                       {lv.delta >= 0 ? '+' : ''}
                       {lv.delta.toFixed(1)}%
-                    </span>
-                    <span className="mono-num text-xs font-bold text-slate-700 dark:text-slate-200">
-                      {lv.newProb.toFixed(1)}%
-                    </span>
+                    </div>
+                    <div className="text-[11px] text-[#5A6065]">Yangi: {lv.newProb.toFixed(1)}%</div>
                   </div>
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">{lv.title}</div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-snug">
-                    {lv.desc}
-                  </p>
+                  <button
+                    onClick={() => onChangeInput(lv.next)}
+                    className="px-3 py-1.5 rounded-[3px] border border-[#C5C2B8] dark:border-[#2C3240] hover:bg-[#111315] hover:text-white dark:hover:bg-white dark:hover:text-[#111315] text-xs font-semibold inline-flex items-center gap-1 transition-colors"
+                  >
+                    <span>Qo&apos;llash</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => onChangeInput(lv.next)}
-                  className="mt-3 w-full inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 hover:bg-[#0F4C5C] hover:text-white dark:hover:bg-teal-500 dark:hover:text-slate-950 border border-stone-200 dark:border-slate-700 text-xs font-semibold transition-colors"
-                >
-                  <span>Qo&apos;llash</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
               </div>
             ))}
           </div>

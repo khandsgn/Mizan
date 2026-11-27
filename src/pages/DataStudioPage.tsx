@@ -1,15 +1,11 @@
 import React, { useMemo, useRef, useState } from 'react';
 import {
   ArrowRight,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Download,
   RotateCcw,
   Search,
-  ShieldCheck,
-  Sliders,
-  Sparkles,
   Upload,
 } from 'lucide-react';
 import {
@@ -35,7 +31,7 @@ interface DataStudioPageProps {
   onGoToLab: () => void;
 }
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 export const DataStudioPage: React.FC<DataStudioPageProps> = ({
   records,
@@ -104,51 +100,17 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="border-b border-[#D5D3CC] dark:border-[#222630] pb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            Ma&apos;lumot va Tayyorlash studiyasi
+          <div className="mono-num text-[11px] uppercase tracking-widest text-[#5A6065] dark:text-slate-400">
+            02-bo&apos;lim · Empirik tanlama va normalizatsiya
+          </div>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#111315] dark:text-white mt-1">
+            MMT ma&apos;lumotlar bazasi va tayyorlash
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            MMT ma&apos;lumotlarini yuklash, tekshirish, bo&apos;sh kataklarni to&apos;ldirish va masshtablash — yagona oynada
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
-          <button
-            onClick={() => {
-              onLoadSample();
-              setPage(1);
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0F4C5C] hover:bg-[#136074] dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-slate-950 text-sm font-semibold shadow-sm"
-          >
-            <Sparkles className="w-4 h-4 text-amber-300 dark:text-slate-950" />
-            <span>500 ta MMT namunasini yuklash</span>
-          </button>
-
-          {appliedDataset && (
-            <button
-              onClick={onGoToLab}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-bold shadow-sm"
-            >
-              <span>ML Laboratoriyaga o&apos;tish</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Upload + Summary Strip */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        <div
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => {
-            e.preventDefault();
-            const f = e.dataTransfer.files?.[0];
-            if (f) handleFile(f);
-          }}
-          className="lg:col-span-5 rounded-2xl border-2 border-dashed border-stone-300 dark:border-slate-700 bg-white/80 dark:bg-[#111827] p-5 flex flex-col justify-center items-center text-center hover:border-[#0F4C5C] dark:hover:border-teal-400 transition-colors"
-        >
           <input
             ref={fileInputRef}
             type="file"
@@ -159,102 +121,111 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
               if (f) handleFile(f);
             }}
           />
-          <Upload className="w-6 h-6 text-[#0F4C5C] dark:text-teal-400 mb-2" />
-          <div className="text-sm font-bold text-slate-900 dark:text-white">
-            O&apos;z CSV faylingizni yuklang
-          </div>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-            Ustunlar: <code className="mono-num">id, shariat_talabi, raqamlashtirish, kapital_hajmi, soliq_yuklamasi, hudud, mahsulot_turi, yuqori_tasir</code>
-          </p>
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="mt-3 px-3.5 py-1.5 rounded-lg border border-stone-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-stone-100 dark:hover:bg-slate-800"
+            className="px-3.5 py-2 rounded-[3px] border border-[#C5C2B8] dark:border-[#2C3240] bg-white dark:bg-[#151921] hover:bg-[#EAE8E1] dark:hover:bg-[#1E2430] text-xs font-semibold inline-flex items-center gap-1.5"
           >
-            Fayl tanlash (.csv)
+            <Upload className="w-3.5 h-3.5" />
+            <span>CSV yuklash</span>
           </button>
-          {uploadError && <p className="text-xs text-rose-600 mt-2">{uploadError}</p>}
-        </div>
 
-        <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200 dark:border-slate-800 p-4 flex flex-col justify-between">
-            <span className="text-xs text-slate-500 dark:text-slate-400">Jami MMT</span>
-            <span className="mono-num text-2xl font-extrabold text-slate-900 dark:text-white mt-2">
-              {stats.total}
-            </span>
-            <span className="text-[11px] text-[#0F4C5C] dark:text-teal-400 truncate mt-1">
-              {sourceLabel}
-            </span>
-          </div>
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200 dark:border-slate-800 p-4 flex flex-col justify-between">
-            <span className="text-xs text-slate-500 dark:text-slate-400">Yuqori ta&apos;sir (1)</span>
-            <span className="mono-num text-2xl font-extrabold text-[#0F4C5C] dark:text-teal-400 mt-2">
-              {stats.highImpact}
-            </span>
-            <span className="mono-num text-[11px] text-slate-500 mt-1">{stats.highShare}% ulush</span>
-          </div>
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200 dark:border-slate-800 p-4 flex flex-col justify-between">
-            <span className="text-xs text-slate-500 dark:text-slate-400">Cheklangan (0)</span>
-            <span className="mono-num text-2xl font-extrabold text-slate-700 dark:text-slate-200 mt-2">
-              {stats.lowImpact}
-            </span>
-            <span className="text-[11px] text-slate-500 mt-1">An&apos;anaviy ustun</span>
-          </div>
-          <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200 dark:border-slate-800 p-4 flex flex-col justify-between">
-            <span className="text-xs text-slate-500 dark:text-slate-400">Bo&apos;sh kataklar</span>
-            <span className="mono-num text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-2">
-              {stats.missing}
-            </span>
-            <span className="text-[11px] text-slate-500 mt-1">Imputatsiya kerak</span>
-          </div>
+          <button
+            onClick={() => {
+              onLoadSample();
+              setPage(1);
+            }}
+            className="px-4 py-2 rounded-[3px] bg-[#0F5338] hover:bg-[#0B3E2A] text-white text-xs font-semibold"
+          >
+            500 ta sintetik MMT bazasini yuklash
+          </button>
+
+          {appliedDataset && (
+            <button
+              onClick={onGoToLab}
+              className="px-4 py-2 rounded-[3px] bg-[#111315] dark:bg-white text-white dark:text-[#111315] text-xs font-semibold inline-flex items-center gap-1.5"
+            >
+              <span>Regressiya modeliga o&apos;tish</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Unified Preprocessing Control Bar (Only when records loaded) */}
+      {uploadError && (
+        <div className="p-3 border border-rose-300 bg-rose-50 text-rose-800 text-xs rounded-[3px]">
+          {uploadError}
+        </div>
+      )}
+
+      {/* Summary Ledger Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#D5D3CC] dark:bg-[#222630] border border-[#D5D3CC] dark:border-[#222630]">
+        <div className="bg-white dark:bg-[#11141A] p-4">
+          <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Tanlama hajmi (N)</div>
+          <div className="mono-num text-2xl font-bold mt-1">{stats.total}</div>
+          <div className="text-[11px] text-[#5A6065] truncate mt-0.5">{sourceLabel}</div>
+        </div>
+        <div className="bg-white dark:bg-[#11141A] p-4">
+          <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Yuqori ta&apos;sir (y = 1)</div>
+          <div className="mono-num text-2xl font-bold text-[#0F5338] dark:text-emerald-400 mt-1">
+            {stats.highImpact} <span className="text-xs font-normal">({stats.highShare}%)</span>
+          </div>
+          <div className="text-[11px] text-[#5A6065] mt-0.5">2031 ulushi ≥ 25%</div>
+        </div>
+        <div className="bg-white dark:bg-[#11141A] p-4">
+          <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Cheklangan ta&apos;sir (y = 0)</div>
+          <div className="mono-num text-2xl font-bold mt-1">{stats.lowImpact}</div>
+          <div className="text-[11px] text-[#5A6065] mt-0.5">An&apos;anaviy portfel ustun</div>
+        </div>
+        <div className="bg-white dark:bg-[#11141A] p-4">
+          <div className="text-[11px] text-[#5A6065] dark:text-slate-400">Bo&apos;sh qiymatlar (NULL)</div>
+          <div className="mono-num text-2xl font-bold text-amber-700 dark:text-amber-400 mt-1">
+            {stats.missing}
+          </div>
+          <div className="text-[11px] text-[#5A6065] mt-0.5">Imputatsiya orqali to&apos;ldiriladi</div>
+        </div>
+      </div>
+
+      {/* Preprocessing Configuration Panel */}
       {records.length > 0 && (
-        <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 p-5 shadow-sm space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <h2 className="text-base font-bold text-slate-900 dark:text-white">
-                Jonli tayyorlash konveyeri (Preprocessing)
+        <div className="bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
+          <div className="px-5 py-3.5 border-b border-[#E6E4DD] dark:border-[#1E222B] flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-bold text-[#111315] dark:text-white">
+                O&apos;zgaruvchilarni oldindan qayta ishlash (Preprocessing)
               </h2>
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full bg-teal-50 dark:bg-teal-500/15 text-[#0F4C5C] dark:text-teal-300 font-semibold">
-                <ShieldCheck className="w-3 h-3" />
-                Data Leakage himoyasi
-              </span>
+              <p className="text-xs text-[#5A6065] dark:text-slate-400">
+                Faol xususiyatlar: <strong className="mono-num">{livePreview?.featureNames.length ?? 0} ta</strong>
+              </p>
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onChangeConfig(DEFAULT_PREPROCESSING)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800"
+                className="px-3 py-1.5 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] text-xs font-medium inline-flex items-center gap-1 hover:bg-[#F4F3EE] dark:hover:bg-[#1A1E26]"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Tiklash</span>
+                <span>Standart</span>
               </button>
               <button
                 onClick={onApplyPreprocessing}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0F4C5C] hover:bg-[#136074] dark:bg-teal-500 dark:hover:bg-teal-400 text-white dark:text-slate-950 text-xs font-bold shadow-sm"
+                className="px-4 py-1.5 rounded-[3px] bg-[#0F5338] hover:bg-[#0B3E2A] text-white text-xs font-semibold"
               >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>
-                  {appliedDataset ? `Tasdiqlangan (${appliedDataset.appliedAt})` : "Tayyorlashni qo'llash"}
-                </span>
+                {appliedDataset
+                  ? `Tasdiqlangan (${appliedDataset.appliedAt})`
+                  : "Transformatsiyani qo'llash"}
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200 dark:border-slate-800 p-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  1. Imputatsiya ({stats.missing} ta null)
-                </span>
+          <div className="p-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div>
+              <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+                <span>1. Bo&apos;sh kataklarni to&apos;ldirish ({stats.missing} ta)</span>
                 <input
                   type="checkbox"
                   checked={config.imputeEnabled}
                   onChange={(e) => onChangeConfig({ ...config, imputeEnabled: e.target.checked })}
-                  className="accent-[#0F4C5C] w-4 h-4"
+                  className="accent-[#0F5338]"
                 />
               </div>
               <select
@@ -263,24 +234,22 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, imputeStrategy: e.target.value as ImputationStrategy })
                 }
-                className="w-full px-2.5 py-2 rounded-lg border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs"
+                className="w-full px-3 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
-                <option value="median">Mediana (tavsiya etilgan)</option>
-                <option value="mean">O&apos;rtacha (Mean)</option>
+                <option value="median">Mediana bo&apos;yicha</option>
+                <option value="mean">O&apos;rtacha arifmetik (Mean)</option>
                 <option value="mode">Moda (Mode)</option>
               </select>
             </div>
 
-            <div className="rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200 dark:border-slate-800 p-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  2. Kodlash ({livePreview?.featureNames.length ?? 0} ustun)
-                </span>
+            <div>
+              <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+                <span>2. Kategoriyalarni kodlash</span>
                 <input
                   type="checkbox"
                   checked={config.encodeEnabled}
                   onChange={(e) => onChangeConfig({ ...config, encodeEnabled: e.target.checked })}
-                  className="accent-[#0F4C5C] w-4 h-4"
+                  className="accent-[#0F5338]"
                 />
               </div>
               <select
@@ -289,23 +258,21 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, encodeStrategy: e.target.value as EncodingStrategy })
                 }
-                className="w-full px-2.5 py-2 rounded-lg border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs"
+                className="w-full px-3 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
-                <option value="onehot">One-Hot Encoding (Hudud &amp; Mahsulot)</option>
-                <option value="label">Label Encoding</option>
+                <option value="onehot">One-Hot Encoding (13 ustun)</option>
+                <option value="label">Tartibli kodlash (Label, 6 ustun)</option>
               </select>
             </div>
 
-            <div className="rounded-xl bg-[#FAF9F6] dark:bg-slate-900/70 border border-stone-200 dark:border-slate-800 p-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  3. Masshtablash
-                </span>
+            <div>
+              <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+                <span>3. Masshtablash</span>
                 <input
                   type="checkbox"
                   checked={config.scaleEnabled}
                   onChange={(e) => onChangeConfig({ ...config, scaleEnabled: e.target.checked })}
-                  className="accent-[#0F4C5C] w-4 h-4"
+                  className="accent-[#0F5338]"
                 />
               </div>
               <select
@@ -314,9 +281,9 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, scaleStrategy: e.target.value as ScalingStrategy })
                 }
-                className="w-full px-2.5 py-2 rounded-lg border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-xs"
+                className="w-full px-3 py-2 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
-                <option value="zscore">Z-score standartlashtirish (μ=0, σ=1)</option>
+                <option value="zscore">Z-score (μ = 0, σ = 1)</option>
                 <option value="minmax">Min-Max [0, 1]</option>
               </select>
             </div>
@@ -324,13 +291,13 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
         </div>
       )}
 
-      {/* Dataset Table */}
+      {/* Data Table */}
       {records.length > 0 && (
-        <div className="rounded-2xl bg-white dark:bg-[#111827] border border-stone-200/90 dark:border-slate-800 shadow-sm overflow-hidden">
-          <div className="p-4 border-b border-stone-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-white dark:bg-[#11141A] border border-[#D5D3CC] dark:border-[#222630] rounded-[3px]">
+          <div className="p-4 border-b border-[#E6E4DD] dark:border-[#1E222B] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2.5 flex-1">
               <div className="relative flex-1 min-w-[200px] max-w-xs">
-                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-[#5A6065] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={search}
@@ -338,8 +305,8 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                     setSearch(e.target.value);
                     setPage(1);
                   }}
-                  placeholder="ID, hudud yoki mahsulot..."
-                  className="w-full pl-9 pr-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 text-xs sm:text-sm"
+                  placeholder="ID, hudud yoki shartnoma..."
+                  className="w-full pl-8 pr-3 py-1.5 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
                 />
               </div>
               <select
@@ -348,17 +315,17 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                   setTargetFilter(e.target.value as 'all' | '0' | '1');
                   setPage(1);
                 }}
-                className="px-3 py-2 rounded-xl border border-stone-200 dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 text-xs sm:text-sm"
+                className="px-3 py-1.5 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] bg-[#FAF9F5] dark:bg-[#151921] text-xs"
               >
-                <option value="all">Barcha holatlar</option>
-                <option value="1">Yuqori ta&apos;sir (1)</option>
-                <option value="0">Cheklangan (0)</option>
+                <option value="all">Barcha yozuvlar</option>
+                <option value="1">Yuqori ta&apos;sir (y = 1)</option>
+                <option value="0">Cheklangan (y = 0)</option>
               </select>
             </div>
 
             <button
-              onClick={() => downloadCsv(recordsToCsv(filtered), 'mizan_uz_mmt_dataset.csv')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-stone-50 dark:hover:bg-slate-800"
+              onClick={() => downloadCsv(recordsToCsv(filtered), 'mizan_mmt_data.csv')}
+              className="px-3 py-1.5 rounded-[3px] border border-[#D5D3CC] dark:border-[#262B36] text-xs font-medium inline-flex items-center gap-1.5 hover:bg-[#F4F3EE] dark:hover:bg-[#1A1E26]"
             >
               <Download className="w-3.5 h-3.5" />
               <span>CSV eksport</span>
@@ -366,52 +333,42 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#FAF9F6] dark:bg-slate-900/70 text-slate-500 dark:text-slate-400 border-b border-stone-200 dark:border-slate-800">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#FAF9F5] dark:bg-[#151921] text-[#5A6065] dark:text-slate-400 border-b border-[#E6E4DD] dark:border-[#1E222B]">
                 <tr>
-                  <th className="px-4 py-3 font-semibold">MMT ID</th>
-                  <th className="px-4 py-3 font-semibold">Shariat talabi</th>
-                  <th className="px-4 py-3 font-semibold">Raqamli ball</th>
-                  <th className="px-4 py-3 font-semibold">Kapital</th>
-                  <th className="px-4 py-3 font-semibold">Soliq to&apos;sig&apos;i</th>
-                  <th className="px-4 py-3 font-semibold">Hudud</th>
-                  <th className="px-4 py-3 font-semibold">Mahsulot</th>
-                  <th className="px-4 py-3 font-semibold text-right">2031 Holat</th>
+                  <th className="px-4 py-2.5 font-semibold">ID</th>
+                  <th className="px-4 py-2.5 font-semibold">Shariat talabi</th>
+                  <th className="px-4 py-2.5 font-semibold">Raqamli indeks</th>
+                  <th className="px-4 py-2.5 font-semibold">Kapital (mlrd)</th>
+                  <th className="px-4 py-2.5 font-semibold">Soliq to&apos;sig&apos;i</th>
+                  <th className="px-4 py-2.5 font-semibold">Hudud</th>
+                  <th className="px-4 py-2.5 font-semibold">Shartnoma</th>
+                  <th className="px-4 py-2.5 font-semibold text-right">Sinf (y)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100 dark:divide-slate-800/70">
+              <tbody className="divide-y divide-[#E6E4DD] dark:divide-[#1E222B]">
                 {pageRows.map((r) => (
-                  <tr key={r.id} className="hover:bg-stone-50/80 dark:hover:bg-slate-800/40">
-                    <td className="px-4 py-3 mono-num font-semibold text-slate-800 dark:text-slate-200">
-                      {r.id}
+                  <tr key={r.id} className="hover:bg-[#FAF9F5] dark:hover:bg-[#161A22]">
+                    <td className="px-4 py-2.5 mono-num font-semibold">{r.id}</td>
+                    <td className="px-4 py-2.5 mono-num">
+                      {r.shariatTalabi !== null ? `${r.shariatTalabi}%` : <span className="text-amber-700 font-bold">—</span>}
                     </td>
-                    <td className="px-4 py-3 mono-num">
-                      {r.shariatTalabi !== null ? `${r.shariatTalabi}%` : <span className="text-amber-600 font-bold">NULL</span>}
+                    <td className="px-4 py-2.5 mono-num">
+                      {r.raqamlashtirish !== null ? r.raqamlashtirish : <span className="text-amber-700 font-bold">—</span>}
                     </td>
-                    <td className="px-4 py-3 mono-num">
-                      {r.raqamlashtirish !== null ? r.raqamlashtirish : <span className="text-amber-600 font-bold">NULL</span>}
+                    <td className="px-4 py-2.5 mono-num">
+                      {r.kapitalHajmi !== null ? r.kapitalHajmi : <span className="text-amber-700 font-bold">—</span>}
                     </td>
-                    <td className="px-4 py-3 mono-num">
-                      {r.kapitalHajmi !== null ? `${r.kapitalHajmi} mlrd` : <span className="text-amber-600 font-bold">NULL</span>}
+                    <td className="px-4 py-2.5 mono-num">
+                      {r.soliqYuklamasi !== null ? r.soliqYuklamasi : <span className="text-amber-700 font-bold">—</span>}
                     </td>
-                    <td className="px-4 py-3 mono-num">
-                      {r.soliqYuklamasi !== null ? r.soliqYuklamasi : <span className="text-amber-600 font-bold">NULL</span>}
-                    </td>
-                    <td className="px-4 py-3">{r.hudud}</td>
-                    <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded-md bg-stone-100 dark:bg-slate-800 text-xs font-medium">
-                        {r.mahsulotTuri}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-2.5">{r.hudud}</td>
+                    <td className="px-4 py-2.5 font-medium">{r.mahsulotTuri}</td>
+                    <td className="px-4 py-2.5 text-right mono-num font-semibold">
                       {r.yuqoriTasir === 1 ? (
-                        <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-teal-50 dark:bg-teal-500/15 text-[#0F4C5C] dark:text-teal-300 border border-teal-200 dark:border-teal-500/25">
-                          Yuqori (1)
-                        </span>
+                        <span className="text-[#0F5338] dark:text-emerald-400">1 (Yuqori)</span>
                       ) : (
-                        <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                          Cheklangan (0)
-                        </span>
+                        <span className="text-[#5A6065]">0 (Past)</span>
                       )}
                     </td>
                   </tr>
@@ -420,27 +377,25 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
             </table>
           </div>
 
-          <div className="px-4 py-3 border-t border-stone-200/80 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
-            <span>
-              Jami <strong className="mono-num text-slate-800 dark:text-slate-200">{filtered.length}</strong> yozuv
-            </span>
+          <div className="px-4 py-2.5 border-t border-[#E6E4DD] dark:border-[#1E222B] flex items-center justify-between text-xs text-[#5A6065]">
+            <span className="mono-num">Jami: {filtered.length} yozuv</span>
             <div className="flex items-center gap-1.5">
               <button
                 disabled={safePage <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="p-1.5 rounded-lg border border-stone-200 dark:border-slate-700 disabled:opacity-40"
+                className="p-1 border border-[#D5D3CC] dark:border-[#262B36] rounded-[2px] disabled:opacity-40"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-3.5 h-3.5" />
               </button>
-              <span className="mono-num px-2 font-semibold text-slate-800 dark:text-slate-200">
+              <span className="mono-num px-2">
                 {safePage} / {totalPages}
               </span>
               <button
                 disabled={safePage >= totalPages}
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                className="p-1.5 rounded-lg border border-stone-200 dark:border-slate-700 disabled:opacity-40"
+                className="p-1 border border-[#D5D3CC] dark:border-[#262B36] rounded-[2px] disabled:opacity-40"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
