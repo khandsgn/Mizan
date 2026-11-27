@@ -100,14 +100,14 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#D5CEBF] dark:border-[#1B382B] pb-4">
         <div>
-          <h1 className="font-display text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
-            MMT ma&apos;lumotlar bazasi va normalizatsiya
+          <div className="text-xs font-semibold text-[#9A7428] dark:text-[#D4B36F] uppercase tracking-wider">
+            II. Empirik Ma&apos;lumotlar va Normalizatsiya
+          </div>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#081C15] dark:text-white mt-0.5">
+            MMT ma&apos;lumotlar bazasi (Murabaha · Ijara · Salam · Musharaka)
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            CSV yuklash, bo&apos;sh qiymatlarni to&apos;ldirish (imputatsiya), kodlash va Z-score masshtablash
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
@@ -123,7 +123,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
           />
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-3.5 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold inline-flex items-center gap-1.5"
+            className="px-3.5 py-2 border border-[#C5A059]/50 bg-white dark:bg-[#0A1812] text-xs font-semibold inline-flex items-center gap-1.5"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>CSV yuklash</span>
@@ -134,17 +134,17 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
               onLoadSample();
               setPage(1);
             }}
-            className="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold"
+            className="px-4 py-2 bg-[#071D15] dark:bg-[#C5A059] text-[#D4B36F] dark:text-[#071D15] text-xs font-bold uppercase tracking-wider"
           >
-            500 ta sintetik MMT bazasini yuklash
+            500 ta MMT namunasini yuklash
           </button>
 
           {appliedDataset && (
             <button
               onClick={onGoToLab}
-              className="px-4 py-2 rounded-md bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold inline-flex items-center gap-1.5"
+              className="px-4 py-2 bg-[#9A7428] text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
             >
-              <span>Logistik modelga o&apos;tish</span>
+              <span>III. Ekonometrik model</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
@@ -152,48 +152,48 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
       </div>
 
       {uploadError && (
-        <div className="p-3 border border-rose-300 bg-rose-50 text-rose-800 text-xs rounded-md">
+        <div className="p-3 border border-rose-400 bg-rose-50 text-rose-900 text-xs">
           {uploadError}
         </div>
       )}
 
       {/* 4 Summary Tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-          <div className="text-[11px] text-slate-500">Tanlama hajmi (N)</div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#D5CEBF] dark:bg-[#1B382B] border border-[#D5CEBF] dark:border-[#1B382B]">
+        <div className="bg-white dark:bg-[#0A1812] p-4">
+          <div className="text-[11px] text-[#52635A] dark:text-[#8FA69B]">Tanlama hajmi (N)</div>
           <div className="mono-num text-2xl font-bold mt-1">{stats.total}</div>
-          <div className="text-[11px] text-slate-400 truncate mt-0.5">{sourceLabel}</div>
+          <div className="text-[11px] text-[#7E968B] truncate mt-0.5">{sourceLabel}</div>
         </div>
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-          <div className="text-[11px] text-slate-500">Yuqori ta&apos;sir (y = 1)</div>
-          <div className="mono-num text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+        <div className="bg-white dark:bg-[#0A1812] p-4">
+          <div className="text-[11px] text-[#52635A] dark:text-[#8FA69B]">Yuqori islomiy ta&apos;sir (y = 1)</div>
+          <div className="mono-num text-2xl font-bold text-[#0A3828] dark:text-[#D4B36F] mt-1">
             {stats.highImpact} <span className="text-xs font-normal">({stats.highShare}%)</span>
           </div>
-          <div className="text-[11px] text-slate-400 mt-0.5">2031 ulushi ≥ 25%</div>
+          <div className="text-[11px] text-[#7E968B] mt-0.5">2031 ulushi ≥ 25%</div>
         </div>
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-          <div className="text-[11px] text-slate-500">Cheklangan ta&apos;sir (y = 0)</div>
+        <div className="bg-white dark:bg-[#0A1812] p-4">
+          <div className="text-[11px] text-[#52635A] dark:text-[#8FA69B]">Cheklangan ta&apos;sir (y = 0)</div>
           <div className="mono-num text-2xl font-bold mt-1">{stats.lowImpact}</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">An&apos;anaviy portfel ustun</div>
+          <div className="text-[11px] text-[#7E968B] mt-0.5">An&apos;anaviy portfel ustun</div>
         </div>
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg p-4">
-          <div className="text-[11px] text-slate-500">Bo&apos;sh qiymatlar (NULL)</div>
-          <div className="mono-num text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">
+        <div className="bg-white dark:bg-[#0A1812] p-4">
+          <div className="text-[11px] text-[#52635A] dark:text-[#8FA69B]">Bo&apos;sh qiymatlar (NULL)</div>
+          <div className="mono-num text-2xl font-bold text-[#9A7428] dark:text-[#D4B36F] mt-1">
             {stats.missing}
           </div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Imputatsiya orqali to&apos;ldiriladi</div>
+          <div className="text-[11px] text-[#7E968B] mt-0.5">Imputatsiya orqali to&apos;ldiriladi</div>
         </div>
       </div>
 
       {/* Preprocessing Config Panel */}
       {records.length > 0 && (
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg">
-          <div className="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-white dark:bg-[#0A1812] border border-[#D5CEBF] dark:border-[#1B382B] gold-rule-top">
+          <div className="px-5 py-3.5 border-b border-[#E5DFD3] dark:border-[#163024] flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+              <h2 className="font-display text-lg font-bold text-[#081C15] dark:text-white">
                 O&apos;zgaruvchilarni tayyorlash (Preprocessing)
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-[#52635A] dark:text-[#8FA69B]">
                 Faol xususiyatlar: <strong className="mono-num">{livePreview?.featureNames.length ?? 0} ta</strong>
               </p>
             </div>
@@ -201,14 +201,14 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onChangeConfig(DEFAULT_PREPROCESSING)}
-                className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-xs font-medium inline-flex items-center gap-1 hover:bg-slate-50 dark:hover:bg-slate-800"
+                className="px-3 py-1.5 border border-[#D5CEBF] dark:border-[#1B382B] text-xs font-medium inline-flex items-center gap-1"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Standart</span>
               </button>
               <button
                 onClick={onApplyPreprocessing}
-                className="px-4 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold"
+                className="px-4 py-1.5 bg-[#071D15] dark:bg-[#C5A059] text-[#D4B36F] dark:text-[#071D15] text-xs font-bold uppercase tracking-wider"
               >
                 {appliedDataset
                   ? `Tasdiqlangan (${appliedDataset.appliedAt})`
@@ -225,7 +225,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                   type="checkbox"
                   checked={config.imputeEnabled}
                   onChange={(e) => onChangeConfig({ ...config, imputeEnabled: e.target.checked })}
-                  className="accent-blue-600"
+                  className="accent-[#071D15]"
                 />
               </div>
               <select
@@ -234,7 +234,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, imputeStrategy: e.target.value as ImputationStrategy })
                 }
-                className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs"
+                className="w-full px-3 py-2 border border-[#D5CEBF] dark:border-[#1B382B] bg-[#FAF8F3] dark:bg-[#0D2118] text-xs"
               >
                 <option value="median">Mediana bo&apos;yicha</option>
                 <option value="mean">O&apos;rtacha arifmetik (Mean)</option>
@@ -244,12 +244,12 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
 
             <div>
               <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-                <span>2. Kategoriyalarni kodlash</span>
+                <span>2. Shartnoma va hududni kodlash</span>
                 <input
                   type="checkbox"
                   checked={config.encodeEnabled}
                   onChange={(e) => onChangeConfig({ ...config, encodeEnabled: e.target.checked })}
-                  className="accent-blue-600"
+                  className="accent-[#071D15]"
                 />
               </div>
               <select
@@ -258,7 +258,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, encodeStrategy: e.target.value as EncodingStrategy })
                 }
-                className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs"
+                className="w-full px-3 py-2 border border-[#D5CEBF] dark:border-[#1B382B] bg-[#FAF8F3] dark:bg-[#0D2118] text-xs"
               >
                 <option value="onehot">One-Hot Encoding (13 ustun)</option>
                 <option value="label">Tartibli kodlash (Label, 6 ustun)</option>
@@ -272,7 +272,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                   type="checkbox"
                   checked={config.scaleEnabled}
                   onChange={(e) => onChangeConfig({ ...config, scaleEnabled: e.target.checked })}
-                  className="accent-blue-600"
+                  className="accent-[#071D15]"
                 />
               </div>
               <select
@@ -281,7 +281,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                 onChange={(e) =>
                   onChangeConfig({ ...config, scaleStrategy: e.target.value as ScalingStrategy })
                 }
-                className="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs"
+                className="w-full px-3 py-2 border border-[#D5CEBF] dark:border-[#1B382B] bg-[#FAF8F3] dark:bg-[#0D2118] text-xs"
               >
                 <option value="zscore">Z-score (μ = 0, σ = 1)</option>
                 <option value="minmax">Min-Max [0, 1]</option>
@@ -293,11 +293,11 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
 
       {/* Data Table */}
       {records.length > 0 && (
-        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-white dark:bg-[#0A1812] border border-[#D5CEBF] dark:border-[#1B382B] gold-rule-top overflow-hidden">
+          <div className="p-4 border-b border-[#E5DFD3] dark:border-[#163024] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2.5 flex-1">
               <div className="relative flex-1 min-w-[200px] max-w-xs">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-[#52635A] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={search}
@@ -306,7 +306,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                     setPage(1);
                   }}
                   placeholder="ID, hudud yoki shartnoma..."
-                  className="w-full pl-8 pr-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs"
+                  className="w-full pl-8 pr-3 py-1.5 border border-[#D5CEBF] dark:border-[#1B382B] bg-[#FAF8F3] dark:bg-[#0D2118] text-xs"
                 />
               </div>
               <select
@@ -315,7 +315,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                   setTargetFilter(e.target.value as 'all' | '0' | '1');
                   setPage(1);
                 }}
-                className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs"
+                className="px-3 py-1.5 border border-[#D5CEBF] dark:border-[#1B382B] bg-[#FAF8F3] dark:bg-[#0D2118] text-xs"
               >
                 <option value="all">Barcha yozuvlar</option>
                 <option value="1">Yuqori ta&apos;sir (y = 1)</option>
@@ -325,7 +325,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
 
             <button
               onClick={() => downloadCsv(recordsToCsv(filtered), 'mizan_mmt_data.csv')}
-              className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-xs font-medium inline-flex items-center gap-1.5 hover:bg-slate-50 dark:hover:bg-slate-800"
+              className="px-3 py-1.5 border border-[#C5A059]/50 text-xs font-semibold inline-flex items-center gap-1.5"
             >
               <Download className="w-3.5 h-3.5" />
               <span>CSV eksport</span>
@@ -334,7 +334,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 border-b border-slate-200 dark:border-slate-800">
+              <thead className="bg-[#FAF8F3] dark:bg-[#0D2118] text-[#52635A] dark:text-[#8FA69B] border-b border-[#E5DFD3] dark:border-[#163024]">
                 <tr>
                   <th className="px-4 py-2.5 font-semibold">ID</th>
                   <th className="px-4 py-2.5 font-semibold">Shariat talabi</th>
@@ -342,33 +342,35 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
                   <th className="px-4 py-2.5 font-semibold">Kapital (mlrd)</th>
                   <th className="px-4 py-2.5 font-semibold">Soliq to&apos;sig&apos;i</th>
                   <th className="px-4 py-2.5 font-semibold">Hudud</th>
-                  <th className="px-4 py-2.5 font-semibold">Shartnoma</th>
+                  <th className="px-4 py-2.5 font-semibold">Shariat shartnomasi</th>
                   <th className="px-4 py-2.5 font-semibold text-right">Sinf (y)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tbody className="divide-y divide-[#E5DFD3] dark:divide-[#163024]">
                 {pageRows.map((r) => (
-                  <tr key={r.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
+                  <tr key={r.id} className="hover:bg-[#FAF8F3] dark:hover:bg-[#0E241A]">
                     <td className="px-4 py-2.5 mono-num font-semibold">{r.id}</td>
                     <td className="px-4 py-2.5 mono-num">
-                      {r.shariatTalabi !== null ? `${r.shariatTalabi}%` : <span className="text-amber-600 font-bold">NULL</span>}
+                      {r.shariatTalabi !== null ? `${r.shariatTalabi}%` : <span className="text-[#9A7428] font-bold">NULL</span>}
                     </td>
                     <td className="px-4 py-2.5 mono-num">
-                      {r.raqamlashtirish !== null ? r.raqamlashtirish : <span className="text-amber-600 font-bold">NULL</span>}
+                      {r.raqamlashtirish !== null ? r.raqamlashtirish : <span className="text-[#9A7428] font-bold">NULL</span>}
                     </td>
                     <td className="px-4 py-2.5 mono-num">
-                      {r.kapitalHajmi !== null ? r.kapitalHajmi : <span className="text-amber-600 font-bold">NULL</span>}
+                      {r.kapitalHajmi !== null ? r.kapitalHajmi : <span className="text-[#9A7428] font-bold">NULL</span>}
                     </td>
                     <td className="px-4 py-2.5 mono-num">
-                      {r.soliqYuklamasi !== null ? r.soliqYuklamasi : <span className="text-amber-600 font-bold">NULL</span>}
+                      {r.soliqYuklamasi !== null ? r.soliqYuklamasi : <span className="text-[#9A7428] font-bold">NULL</span>}
                     </td>
                     <td className="px-4 py-2.5">{r.hudud}</td>
-                    <td className="px-4 py-2.5 font-medium">{r.mahsulotTuri}</td>
+                    <td className="px-4 py-2.5 font-semibold text-[#0A3828] dark:text-[#D4B36F]">
+                      {r.mahsulotTuri}
+                    </td>
                     <td className="px-4 py-2.5 text-right mono-num font-semibold">
                       {r.yuqoriTasir === 1 ? (
-                        <span className="text-blue-600 dark:text-blue-400">1 (Yuqori)</span>
+                        <span className="text-[#0A3828] dark:text-[#D4B36F]">1 (Yuqori)</span>
                       ) : (
-                        <span className="text-slate-500">0 (Past)</span>
+                        <span className="text-[#52635A]">0 (Past)</span>
                       )}
                     </td>
                   </tr>
@@ -377,13 +379,13 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
             </table>
           </div>
 
-          <div className="px-4 py-2.5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+          <div className="px-4 py-2.5 border-t border-[#E5DFD3] dark:border-[#163024] flex items-center justify-between text-xs text-[#52635A]">
             <span className="mono-num">Jami: {filtered.length} yozuv</span>
             <div className="flex items-center gap-1.5">
               <button
                 disabled={safePage <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="p-1 border border-slate-300 dark:border-slate-700 rounded-xs disabled:opacity-40"
+                className="p-1 border border-[#D5CEBF] dark:border-[#1B382B] disabled:opacity-40"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
@@ -393,7 +395,7 @@ export const DataStudioPage: React.FC<DataStudioPageProps> = ({
               <button
                 disabled={safePage >= totalPages}
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                className="p-1 border border-slate-300 dark:border-slate-700 rounded-xs disabled:opacity-40"
+                className="p-1 border border-[#D5CEBF] dark:border-[#1B382B] disabled:opacity-40"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
